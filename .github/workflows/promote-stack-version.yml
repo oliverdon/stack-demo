@@ -3,7 +3,7 @@ name: EFEL - Update stack version in terraform on package release
 on:
   push:
     branches:
-      - 'master'
+      - 'main'
 
 jobs:
   promote:
