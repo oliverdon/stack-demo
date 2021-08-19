@@ -11,9 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BOT_TOKEN: ${{ secrets.EL_B2C_BOT_TOKEN }}
-      REPO_NAME: $(echo -e "GITHUB_REPOSITORY#*/")
-      STACK_NAME: $(echo -e "GITHUB_REPOSITORY##*stack-")
-      SHA: "${GITHUB_SHA}"
 
     steps:
       - name: Turnstyle
@@ -24,13 +21,20 @@ jobs:
           abort-after-seconds: 300
 
 
+      - name: get package information
+        run: |
+          echo "REPO_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+          echo "SHA_HASH=${GITHUB_SHA}" >> $GITHUB_ENV
+          echo "STACK_NAME=${GITHUB_REPOSITORY##*stack-}" >> $GITHUB_ENV
+
+
       - name: dispatch promotion event
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ env.BOT_TOKEN }}
           repository: oliverdon/dispatcher
           event-type: promote-stack
-          client-payload: "{\"repository\": \"$(echo -e 'GITHUB_REPOSITORY#*/')\", \"stack\": \"$(echo -e 'GITHUB_REPOSITORY##*stack-')\", \"sha\": \"${GITHUB_SHA}\"}"
+          client-payload: '{"repository": "${{ env.REPO_NAME }}", "stack": "${{ env.STACK_NAME }}", "sha": "${{ env.SHA }}"}'
 
 
 
