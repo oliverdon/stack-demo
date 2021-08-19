@@ -28,8 +28,8 @@ jobs:
         with:
           token: ${{ env.BOT_TOKEN }}
           repository: oliverdon/dispatcher
-          event-type: promote-stack-version
-          client-payload: '{"repository": "${{ env.REPO_NAME }}", "stack": "${{ env.SHA }}"}'
+          event-type: promote-stack
+          client-payload: '{"repository": "${{ env.REPO_NAME }}", "stack": "${{ env.REPO_NAME }}" "sha": "${{ env.SHA }}"}'
 
 
 
