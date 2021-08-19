@@ -12,6 +12,7 @@ jobs:
     env:
       BOT_TOKEN: ${{ secrets.EL_B2C_BOT_TOKEN }}
       REPO_NAME: ${GITHUB_REPOSITORY#*/}
+      STACK_NAME: ${GITHUB_REPOSITORY#*/}
       SHA: ${GITHUB_SHA}
 
     steps:
@@ -29,7 +30,7 @@ jobs:
           token: ${{ env.BOT_TOKEN }}
           repository: oliverdon/dispatcher
           event-type: promote-stack
-          client-payload: '{"repository": "${{ env.REPO_NAME }}", "stack": "${{ env.REPO_NAME }}", "sha": "${{ env.SHA }}"}'
+          client-payload: '{"repository": "${{ env.REPO_NAME }}", "stack": "${{ env.STACK_NAME }}", "sha": "${{ env.SHA }}"}'
 
 
 
