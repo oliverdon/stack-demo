@@ -1,0 +1,38 @@
+name: EFEL - Update stack version in terraform on package release
+
+on:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  promote:
+    name: promote
+    runs-on: ubuntu-latest
+    env:
+      BOT_TOKEN: ${{ secrets.EL_B2C_BOT_TOKEN }}
+      REPO_NAME: ${GITHUB_REPOSITORY#*/}
+      SHA: ${GITHUB_SHA}
+
+    steps:
+      - name: Turnstyle
+        uses: softprops/turnstyle@v1
+        env:
+          GITHUB_TOKEN: ${{ env.BOT_TOKEN }}
+          same-branch-only: false
+          abort-after-seconds: 300
+
+
+      - name: dispatch promotion event
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ env.BOT_TOKEN }}
+          repository: oliverdon/dispatcher
+          event-type: promote-stack-version
+          payload: '{"repository": "${{ env.REPO_NAME }}", "stack": "${{ env.SHA }}"}''
+
+
+
+
+
+
