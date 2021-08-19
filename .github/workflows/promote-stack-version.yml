@@ -30,7 +30,7 @@ jobs:
           token: ${{ env.BOT_TOKEN }}
           repository: oliverdon/dispatcher
           event-type: promote-stack
-          client-payload: '{"repository": "${{ env.REPO_NAME }}", "stack": "${{ env.STACK_NAME }}", "sha": "${{ env.SHA }}"}'
+          client-payload: "{\"repository\": \"$(echo -e 'GITHUB_REPOSITORY#*/')\", \"stack\": \"$(echo -e 'GITHUB_REPOSITORY##*stack-')\", \"sha\": \"${GITHUB_SHA}\"}"
 
 
 
